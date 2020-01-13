@@ -1,0 +1,16 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: network-exporter
+  labels:
+    release: monitoring
+spec:
+  podMetricsEndpoints:
+  - port: metrics
+    relabelings:
+    - action: labeldrop
+      regex: '^(container|endpoint|namespace|pod)$'
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: network-exporter

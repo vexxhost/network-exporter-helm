@@ -1,0 +1,12 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: network-exporter
+  labels:
+    app: prometheus-operator
+    release: monitoring
+spec:
+  groups:
+  - name: network
+    rules: []
