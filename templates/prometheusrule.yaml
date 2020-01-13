@@ -41,7 +41,7 @@ spec:
 
     - alert: NetworkDeviceRebooted
       expr: |
-        rate(network_device_boot_timestamp[5m]) > 0
+        network_device_uptime < 300
       labels:
         severity: P2
       annotations:
