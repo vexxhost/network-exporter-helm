@@ -18,7 +18,7 @@ spec:
       containers:
       - name: network-exporter
         args:
-        - -config.file=/data/config.yml
+        - --config.file=/data/config.yml
         volumeMounts:
         - name: exporter-config
           mountPath: /data
