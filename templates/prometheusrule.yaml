@@ -9,4 +9,41 @@ metadata:
 spec:
   groups:
   - name: network
-    rules: []
+    rules:
+    - alert: NetworkDeviceDown
+      expr: |
+        network_device_up != 1
+      labels:
+        severity: P1
+      annotations:
+        summary: >
+          {{`{{$labels.device}}`}} has failed to collect statistics.
+
+    - alert: NetworkDeviceBgpPeerDown
+      expr: |
+        network_bgp_up != 1
+      labels:
+        severity: P2
+      annotations:
+        summary: >
+          AS#{{`{{$labels.as}}`}} ({{`{{$labels.remote}}`}}) peer is down
+          on router {{`{{$labels.device}}`}}
+
+    - alert: NetworkDeviceNoBgpRoutes
+      expr: |
+        network_bgp_prefix_count == 0
+      labels:
+        severity: P2
+      annotations:
+        summary: >
+          AS#{{`{{$labels.as}}`}} ({{`{{$labels.remote}}`}}) is not sending
+          any routes on router {{`{{$labels.device}}`}}
+
+    - alert: NetworkDeviceRebooted
+      expr: |
+        rate(network_device_boot_timestamp[5m]) > 0
+      labels:
+        severity: P2
+      annotations:
+        summary: >
+          {{`{{$labels.device}}`}} has been rebooted
